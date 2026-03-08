@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pokedex/colors/colors.dart';
+import 'package:pokedex/stores/home_screen.store.dart';
 import 'package:pokedex/widgets/poke_card.widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _homeScrennStore = GetIt.I.get<HomeScrennStore>();
+
+  @override
+  void initState() {
+    _homeScrennStore.loadPokemons();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,19 +56,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: 10,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 2 / 2.8,
-                  ),
-                  itemBuilder: (context, index) {
-                    return const PokeCard();
-                  },
-                ),
+              Observer(
+                builder: (_) {
+                  return Expanded(
+                    child: _homeScrennStore.isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            itemCount: _homeScrennStore.pokemons.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 2 / 2.8,
+                                ),
+                            itemBuilder: (context, index) {
+                              return PokeCard(
+                                pokemon: _homeScrennStore.pokemons[index],
+                              );
+                            },
+                          ),
+                  );
+                },
               ),
             ],
           ),

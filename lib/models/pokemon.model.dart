@@ -5,6 +5,15 @@ class Pokemon {
   final String url;
   Pokemon({required this.name, required this.url});
 
+  String get id {
+    final data = url.split("/");
+    data.removeLast();
+    return data.last;
+  }
+
+  String get imageUrl =>
+      "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/other/official-artwork/$id.png";
+
   Pokemon copyWith({String? name, String? url}) {
     return Pokemon(name: name ?? this.name, url: url ?? this.url);
   }

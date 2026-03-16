@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pokedex/models/poke_response.model.dart';
 import 'package:pokedex/models/pokemon.model.dart';
@@ -22,9 +23,24 @@ abstract class HomeScrennStoreBase with Store {
   @action
   Future<List<Pokemon>> loadPokemons() async {
     _isLoading = true;
-    PokeResponse response = await _pokeApiService.loadPokemons();
-    _pokemons = response.results.asObservable();
-    _isLoading = false;
+
+    try {
+      PokeResponse response = await _pokeApiService.loadPokemons();
+      _pokemons = response.results.asObservable();
+    } catch (e) {
+      // ignore: avoid_print
+      print('Erro ao carregar pokemons: $e');
+    } finally {
+      _isLoading = false;
+    }
     return _pokemons;
+  }
+
+  @action
+  void updatePokemonsColor({required String pokemonId, required Color color}) {
+    final indexPokemon = pokemons.indexWhere(
+      (element) => element.id == pokemonId,
+    );
+    pokemons[indexPokemon] = pokemons[indexPokemon].copyWith(color: color);
   }
 }

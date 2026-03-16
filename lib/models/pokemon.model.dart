@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 class Pokemon {
   final String name;
   final String url;
-  Pokemon({required this.name, required this.url});
+  final Color color;
+  Pokemon({required this.name, required this.url, this.color = Colors.white});
 
   String get id {
     final data = url.split("/");
@@ -14,8 +17,12 @@ class Pokemon {
   String get imageUrl =>
       "https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/other/official-artwork/$id.png";
 
-  Pokemon copyWith({String? name, String? url}) {
-    return Pokemon(name: name ?? this.name, url: url ?? this.url);
+  Pokemon copyWith({String? name, String? url, Color? color}) {
+    return Pokemon(
+      name: name ?? this.name,
+      url: url ?? this.url,
+      color: color ?? this.color,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -30,17 +37,4 @@ class Pokemon {
 
   factory Pokemon.fromJson(String source) =>
       Pokemon.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'Pokemon(name: $name, url: $url)';
-
-  @override
-  bool operator ==(covariant Pokemon other) {
-    if (identical(this, other)) return true;
-
-    return other.name == name && other.url == url;
-  }
-
-  @override
-  int get hashCode => name.hashCode ^ url.hashCode;
 }

@@ -13,12 +13,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _scrollController = ScrollController();
   final _homeScrennStore = GetIt.I.get<HomeScrennStore>();
+
+  void scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      _homeScrennStore.loadPokemons();
+    }
+  }
 
   @override
   void initState() {
-    _homeScrennStore.loadPokemons();
     super.initState();
+    _scrollController.addListener(scrollListener);
+    _homeScrennStore.loadPokemons();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -44,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
               TextField(
+                onChanged: _homeScrennStore.setSearch,
                 decoration: InputDecoration(
                   hintText: 'Nome ou Identificador',
                   hintStyle: const TextStyle(color: primaryColor),
@@ -59,23 +76,27 @@ class _HomeScreenState extends State<HomeScreen> {
               Observer(
                 builder: (_) {
                   return Expanded(
-                    child: _homeScrennStore.isLoading
-                        ? const Center(child: CircularProgressIndicator())
-                        : GridView.builder(
-                            itemCount: _homeScrennStore.pokemons.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio: 2 / 2.8,
-                                ),
-                            itemBuilder: (context, index) {
-                              return PokeCard(
-                                pokemon: _homeScrennStore.pokemons[index],
-                              );
-                            },
+                    child: GridView.builder(
+                      controller: _scrollController,
+                      itemCount: _homeScrennStore.filteredPokemons.length + 1,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 2 / 2.8,
                           ),
+                      itemBuilder: (context, index) {
+                        if (index < _homeScrennStore.filteredPokemons.length) {
+                          return PokeCard(
+                            pokemon: _homeScrennStore.filteredPokemons[index],
+                          );
+                        }
+                        return _homeScrennStore.isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : null;
+                      },
+                    ),
                   );
                 },
               ),

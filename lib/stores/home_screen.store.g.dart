@@ -9,6 +9,15 @@ part of 'home_screen.store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$HomeScrennStore on HomeScrennStoreBase, Store {
+  Computed<List<Pokemon>>? _$filteredPokemonsComputed;
+
+  @override
+  List<Pokemon> get filteredPokemons =>
+      (_$filteredPokemonsComputed ??= Computed<List<Pokemon>>(
+        () => super.filteredPokemons,
+        name: 'HomeScrennStoreBase.filteredPokemons',
+      )).value;
+
   late final _$_isLoadingAtom = Atom(
     name: 'HomeScrennStoreBase._isLoading',
     context: context,
@@ -45,6 +54,24 @@ mixin _$HomeScrennStore on HomeScrennStoreBase, Store {
     });
   }
 
+  late final _$_searchAtom = Atom(
+    name: 'HomeScrennStoreBase._search',
+    context: context,
+  );
+
+  @override
+  String? get _search {
+    _$_searchAtom.reportRead();
+    return super._search;
+  }
+
+  @override
+  set _search(String? value) {
+    _$_searchAtom.reportWrite(value, super._search, () {
+      super._search = value;
+    });
+  }
+
   late final _$loadPokemonsAsyncAction = AsyncAction(
     'HomeScrennStoreBase.loadPokemons',
     context: context,
@@ -61,6 +88,18 @@ mixin _$HomeScrennStore on HomeScrennStoreBase, Store {
   );
 
   @override
+  void setSearch(String? text) {
+    final _$actionInfo = _$HomeScrennStoreBaseActionController.startAction(
+      name: 'HomeScrennStoreBase.setSearch',
+    );
+    try {
+      return super.setSearch(text);
+    } finally {
+      _$HomeScrennStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updatePokemonsColor({required String pokemonId, required Color color}) {
     final _$actionInfo = _$HomeScrennStoreBaseActionController.startAction(
       name: 'HomeScrennStoreBase.updatePokemonsColor',
@@ -75,7 +114,7 @@ mixin _$HomeScrennStore on HomeScrennStoreBase, Store {
   @override
   String toString() {
     return '''
-
+filteredPokemons: ${filteredPokemons}
     ''';
   }
 }

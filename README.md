@@ -39,7 +39,7 @@ Framework: Flutter
 Gerenciamento de Estado: MobX (com mobx_codegen e flutter_mobx)
 
 •
-Requisições HTTP: dio
+Requisições HTTP: uno
 
 •
 Injeção de Dependência: get_it

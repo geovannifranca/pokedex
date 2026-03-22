@@ -39,6 +39,8 @@ dependencies:
   flutter_mobx: ^2.3.0
   get_it: ^9.2.1
   palette_generator: ^0.3.3+7
+  cached_network_image: ^3.4.1
+  percent_indicator: ^4.2.5
 
 
 

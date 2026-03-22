@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokedex/colors/colors.dart';
+import 'package:pokedex/screens/datail_screen.dart';
 import 'package:pokedex/stores/home_screen.store.dart';
 import 'package:pokedex/widgets/poke_card.widget.dart';
 
@@ -84,12 +85,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
-                            childAspectRatio: 2 / 2.8,
+                            childAspectRatio: 2 / 2.9,
                           ),
                       itemBuilder: (context, index) {
                         if (index < _homeScrennStore.filteredPokemons.length) {
-                          return PokeCard(
-                            pokemon: _homeScrennStore.filteredPokemons[index],
+                          return InkWell(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => DatailScreen(
+                                  pokemon:
+                                      _homeScrennStore.filteredPokemons[index],
+                                ),
+                              ),
+                            ),
+                            child: PokeCard(
+                              pokemon: _homeScrennStore.filteredPokemons[index],
+                            ),
                           );
                         }
                         return _homeScrennStore.isLoading

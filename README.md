@@ -82,9 +82,9 @@ Siga estas instruções para configurar e executar o projeto localmente:
 
     Certifique-se de ter um emulador ou dispositivo físico conectado e configurado para desenvolvimento Flutter.
 
-## ✍️ Autor/Contato
+## ✍️ Autor
 
-Desenvolvido com paixão por:
+Desenvolvido por:
 
 **Geovanni**
 

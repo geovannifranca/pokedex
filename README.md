@@ -10,17 +10,6 @@
 
 Bem-vindo à Pokedex! Este aplicativo mobile, desenvolvido em Flutter, oferece uma experiência rica e interativa para explorar o vasto universo Pokémon. Com uma interface intuitiva e design responsivo, a Pokedex permite aos usuários navegar por uma lista abrangente de Pokémon, visualizar detalhes específicos de cada criatura e descobrir suas características únicas. É a ferramenta perfeita para treinadores e entusiastas que desejam ter todas as informações sobre seus Pokémon favoritos na palma da mão. 🚀
 
-📸 Demonstração (UI/UX )
-
-Aqui você pode visualizar a interface do usuário e a experiência de uso do aplicativo.
-
-Tela Inicial
-
-[Insira a imagem/GIF da tela inicial aqui]
-
-Tela de Detalhes do Pokémon
-
-[Insira a imagem/GIF da tela de detalhes aqui]
 
 ✨ Funcionalidades
 
